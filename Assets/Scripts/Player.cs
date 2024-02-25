@@ -83,6 +83,8 @@ public class Player : MonoBehaviour, ICharacter
 
     public void TryDash()
     {
+        if (!canDash) return;
+
         StartCoroutine(Dash());
     }
 
