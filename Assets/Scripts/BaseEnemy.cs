@@ -23,7 +23,7 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
     }
 
     [SerializeField] private float rotationSpeed;
-    private IPlayerAwareness playerAwareness;
+    internal IPlayerAwareness playerAwareness;
 
     private void Start()
     {

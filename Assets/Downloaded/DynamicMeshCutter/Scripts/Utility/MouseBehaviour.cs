@@ -61,24 +61,16 @@ namespace DynamicMeshCutter
             }
         }
 
-        public void OnCut(bool success, Info info)
-        {
-            if (success)
-            {
-                // Your custom logic here
-                Debug.Log($"Cut successful. Processed {info.CreatedMeshes.Length} meshes.");
-                // Additional logic based on 'info'
-            }
-            else
-            {
-                Debug.Log("Cut operation failed.");
-            }
-        }
-
         void OnCreated(Info info, MeshCreationData cData)
         {
             MeshCreation.TranslateCreatedObjects(info, cData.CreatedObjects, cData.CreatedTargets, Separation);
+            foreach (GameObject obj in cData.CreatedObjects)
+            {
+                float randomDelay = Random.Range(1f, 10f);
+                Destroy(obj, randomDelay);
+            }
         }
+
         private void VisualizeLine(bool value)
         {
             if (lineRenderer == null)
