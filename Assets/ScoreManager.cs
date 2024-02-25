@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
     static public ScoreManager Instance;
 
     private int score;
-    //private Text scoreText;
+    private Text scoreText;
 
     private int lightEnemyKillCount;
     private int heavyEnemyKillCount;
@@ -18,11 +20,11 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         score = 0;
-        //scoreText.text = "Score: " + score;
+        scoreText.text = "Score: " + score;
 
         lightEnemyKillCount = 0;
         heavyEnemyKillCount = 0;
-        superHeavyEnemyKillCountEnemyKillCount = 0;
+        superHeavyEnemyKillCount = 0;
         factoryKillCount = 0;
     }
 
@@ -38,7 +40,7 @@ public class ScoreManager : MonoBehaviour
 
     public void KillSuperHeavyEnemy() 
     {
-        superHeavyEnemyKillCountEnemyKillCount++;
+        superHeavyEnemyKillCount++;
     }
 
     public void KillFactory() {
@@ -55,14 +57,12 @@ public class ScoreManager : MonoBehaviour
         return score;
     }
 
-    /*
-    public Text GetScoreText()
+    public UnityEngine.UI.Text GetScoreText()
     {
         return scoreText;
     }
-    */
 
-    public GetFactoryKillCount()
+    public int GetFactoryKillCount()
     {
         return factoryKillCount;
     }
@@ -71,6 +71,6 @@ public class ScoreManager : MonoBehaviour
     void Update()
     {
         CalculateScore();
-        //scoreText = "Score: " + score;
+        scoreText.text = "Score: " + score;
     }
 }
