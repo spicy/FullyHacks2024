@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1592639660177472398}
   - component: {fileID: 6443497301294660267}
   - component: {fileID: 2387526252684687485}
+  - component: {fileID: -3881833413238940264}
   m_Layer: 6
   m_Name: LightEnemy
   m_TagString: Enemy
@@ -154,6 +155,10 @@ MonoBehaviour:
   moveSpeed: 2
   fadeDuration: 2
   rotationSpeed: 0
+  bulletPrefab: {fileID: 0}
+  gunPoint: {fileID: 0}
+  bulletSpeed: 5
+  fireRate: 1
 --- !u!114 &2387526252684687485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,3 +172,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerAwarenessDistance: 20
+--- !u!114 &-3881833413238940264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7346274198396828306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff58a0f6f29c41c4697b23bb6c237c98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bullet: {fileID: 608611131363524805, guid: b8af460ba603bdf4faaf0e19e3f38af2, type: 3}
+  BulletPos: {fileID: 6721933349258120564, guid: 3f1874ea008a44e448f4104d94f8f4e2, type: 3}

@@ -10,6 +10,10 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float fadeDuration = 2f;
 
+    private float timer;
+
+    private EnemyShooting shooter;
+
     private Rigidbody2D rb;
     public float Health
     {
@@ -25,6 +29,10 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
     [SerializeField] private float rotationSpeed;
     internal IPlayerAwareness playerAwareness;
 
+    public EnemyShooting scriptComponent;
+
+    private GameObject bulletPrefab;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -33,11 +41,21 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
 
     private void FixedUpdate()
     {
+        shooter = GetComponent<EnemyShooting>();
+
         if (playerAwareness.IsAwareOfPlayer)
         {
             Vector2 targetDirection = playerAwareness.DirectionToPlayer;
             RotateTowardsTarget(targetDirection);
             Move(targetDirection);
+
+            timer += Time.deltaTime;
+
+            if (timer > 2)
+            {
+                timer = 0;
+                shooter.shoot();
+            }
         }
         else
         {
