@@ -267,8 +267,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   moveSpeed: 5
-  dashDistance: 5
+  dashPower: 3
   dashCooldown: 2
+  dashTimeInSeconds: 0.25
   invulnerabilityDuration: 1.5
 --- !u!114 &7663898506866791077
 MonoBehaviour:

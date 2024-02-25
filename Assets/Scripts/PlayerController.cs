@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 using UnityEngine.UIElements;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 [RequireComponent(typeof(Player))]
 public class PlayerController : MonoBehaviour
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            player.TryDash(aimDirection);
+            player.TryDash();
         }
     }
 }
