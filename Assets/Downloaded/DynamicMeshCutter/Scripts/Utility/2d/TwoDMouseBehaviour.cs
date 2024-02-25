@@ -9,43 +9,44 @@ namespace DynamicMeshCutter
     public class TwoDMouseBehaviour : CutterBehaviour
     {
         public LineRenderer LR => GetComponent<LineRenderer>();
-        private Vector2 _from;
-        private Vector2 _to;
+        private Vector3 _from;
+        private Vector3 _to;
         private bool _isDragging;
 
-        protected override void Update()
+        void Update()
         {
-            base.Update();
-
             if (Input.GetMouseButtonDown(0))
             {
                 _isDragging = true;
 
-                var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+                Vector3 mousePos = Input.mousePosition;
+                mousePos.z = Camera.main.nearClipPlane; // Set to near clip plane
                 _from = Camera.main.ScreenToWorldPoint(mousePos);
+                _from.z = 0; // Ensure Z is 0 for 2D
             }
 
             if (_isDragging)
             {
-                var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y);
+                Vector3 mousePos = Input.mousePosition;
+                mousePos.z = Camera.main.nearClipPlane; // Consistent with _from initialization
                 _to = Camera.main.ScreenToWorldPoint(mousePos);
+                _to.z = 0; // Ensure Z is 0 for 2D
                 VisualizeLine(true);
-            }
-            else
-            {
-                VisualizeLine(false);
             }
 
             if (Input.GetMouseButtonUp(0) && _isDragging)
             {
-                Cut();
                 _isDragging = false;
+                VisualizeLine(false);
+                Cut();
             }
         }
 
         private void Cut()
         {
             Plane plane = new Plane(_from, _to, Camera.main.transform.position);
+            
+            VisualizePlane((_from + _to) / 2, plane.normal);
 
             var roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var root in roots)
@@ -57,6 +58,31 @@ namespace DynamicMeshCutter
                 {
                     Cut(target, _to, plane.normal, null, OnCreated);
                 }
+            }
+        }
+        void VisualizePlane(Vector3 pointOnPlane, Vector3 planeNormal)
+        {
+            // Draw the normal of the plane
+            Debug.DrawRay(pointOnPlane, planeNormal * 5, Color.red, duration: 5f);
+
+            // Create a rotation that looks in the direction of the normal
+            Quaternion rotation = Quaternion.LookRotation(planeNormal);
+
+            // Determine the size of the plane visualization
+            float planeSize = 5f;
+            Vector3 right = rotation * Vector3.right * planeSize;
+            Vector3 forward = rotation * Vector3.forward * planeSize;
+
+            // Decrease the step size to draw more lines
+            float stepSize = planeSize / 10; // Increase the number of lines by making the step size smaller
+
+            // Draw a denser grid to represent the plane
+            for (float i = -planeSize; i <= planeSize; i += stepSize)
+            {
+                // Lines parallel to the X axis
+                Debug.DrawRay(pointOnPlane + right * i - forward * planeSize, forward * 2 * planeSize, Color.blue, 5f);
+                // Lines parallel to the Z axis
+                Debug.DrawRay(pointOnPlane + forward * i - right * planeSize, right * 2 * planeSize, Color.blue, 5f);
             }
         }
 

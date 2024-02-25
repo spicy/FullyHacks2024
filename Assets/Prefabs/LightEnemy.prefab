@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5722268390717011042}
   - component: {fileID: 1507418040655957018}
   - component: {fileID: 3070401803404112441}
-  - component: {fileID: 7412877839953061187}
   m_Layer: 6
   m_Name: LightEnemy
   m_TagString: Enemy
@@ -31,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.0040779, y: 1.3769213, z: 0.05766251}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -127,27 +126,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 80
   moveSpeed: 4
---- !u!114 &7412877839953061187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4235213644322368881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74d075e443ddc624db302098f7826153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GameobjectRoot: {fileID: 4235213644322368881}
-  OverrideFaceMaterial: {fileID: 2100000, guid: 91090ed101ccea843979fc0d9855669e, type: 2}
-  SeparateMeshes: 1
-  ApplyTranslation: 1
-  DefaultBehaviour: 0000000000000000
-  DynamicRagdoll: {fileID: 0}
-  Animator: {fileID: 0}
-  GroupBehaviours: []
-  CreateRigidbody: 0101
-  CreateMeshCollider: 0101
-  Physics: 0200000002000000
-  Inherit: 0000
