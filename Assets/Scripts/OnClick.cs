@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OnClick : MonoBehaviour
 {
@@ -13,11 +14,16 @@ public class OnClick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Click();
+        OnMouseDown();
     }
 
-    public void Click()
+    public void OnMouseDown()
     {
-        Debug.Log("Clicked");
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Clicked");
+
+            SceneManager.LoadScene("Level");
+        }
     }
 }
