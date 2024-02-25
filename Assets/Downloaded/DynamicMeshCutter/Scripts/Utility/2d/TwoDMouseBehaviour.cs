@@ -74,7 +74,7 @@ namespace DynamicMeshCutter
             Vector3 forward = rotation * Vector3.forward * planeSize;
 
             // Decrease the step size to draw more lines
-            float stepSize = planeSize / 10; // Increase the number of lines by making the step size smaller
+            float stepSize = planeSize / 20; // Increase the number of lines by making the step size smaller
 
             // Draw a denser grid to represent the plane
             for (float i = -planeSize; i <= planeSize; i += stepSize)

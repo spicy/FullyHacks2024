@@ -8,6 +8,7 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
 {
     [SerializeField] private float health;
     [SerializeField] private float moveSpeed = 1f;
+    [SerializeField] private float fadeDuration = 2f;
 
     private Rigidbody2D rb;
     public float Health
@@ -21,9 +22,33 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
         set => moveSpeed = Mathf.Max(value, 0);
     }
 
-    private void Awake()
+    [SerializeField] private float rotationSpeed;
+    internal IPlayerAwareness playerAwareness;
+
+    private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerAwareness = GetComponent<IPlayerAwareness>();
+    }
+
+    private void FixedUpdate()
+    {
+        if (playerAwareness.IsAwareOfPlayer)
+        {
+            Vector2 targetDirection = playerAwareness.DirectionToPlayer;
+            RotateTowardsTarget(targetDirection);
+            Move(targetDirection);
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
+    }
+
+    private void RotateTowardsTarget(Vector2 targetDirection)
+    {
+        Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, targetDirection);
+        rb.rotation = Quaternion.RotateTowards(Quaternion.Euler(0, 0, rb.rotation), targetRotation, rotationSpeed * Time.fixedDeltaTime).eulerAngles.z;
     }
 
     public void Attack()
@@ -50,6 +75,24 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
     {
         // Kill the enemy and add to the score manager ? Invoke death event??
         Debug.Log("Enemy Died");
-        Destroy(gameObject, 1);
+        StartCoroutine(FadeOutAndDestroy());
     }
+
+    private IEnumerator FadeOutAndDestroy()
+    {
+        float currentTime = 0;
+        Material material = GetComponent<Renderer>().material;
+        Color startColor = material.color;
+
+        while (currentTime < fadeDuration)
+        {
+            float alpha = Mathf.Lerp(1f, 0f, currentTime / fadeDuration);
+            material.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        Destroy(gameObject);
+    }
+
 }

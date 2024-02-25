@@ -217,8 +217,6 @@ namespace DynamicMeshCutter
             VirtualPlane plane = new VirtualPlane(localP, localN, worldPosition, worldNormal);
             Info info = new Info(target, plane, onCut, onCreated, boxedUserData);
 
-
-
             if (!UseAsync)
             {
                 var watch = new System.Diagnostics.Stopwatch();
@@ -229,9 +227,16 @@ namespace DynamicMeshCutter
                 VirtualMesh[] virtualMeshes = meshcutting.Cut(ref info);
                 info.CreatedMeshes = virtualMeshes;
                 if (virtualMeshes == null)
+
                     OnCut(false, info);
                 else
                 {
+                    var sliceable = GetComponent<ISliceable>();
+                    if (sliceable != null)
+                    {
+                        sliceable?.OnBeforeSlice();
+                    }
+
                     OnCut(true, info);
                     amount = virtualMeshes.Length;
                 }

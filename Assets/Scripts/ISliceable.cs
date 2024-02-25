@@ -1,4 +1,6 @@
-﻿public interface ISliceable
+﻿using UnityEngine;
+
+public interface ISliceable
 {
-    void Slice();
+    void OnBeforeSlice();
 }
