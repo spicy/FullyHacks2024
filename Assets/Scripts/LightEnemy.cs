@@ -4,5 +4,6 @@ using UnityEngine;
 
 public partial class LightEnemy : BaseEnemy
 {
-
+    // Different Attack?
+    // Different Range?
 }

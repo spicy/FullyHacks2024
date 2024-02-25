@@ -6,10 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public partial class BaseEnemy : MonoBehaviour, ICharacter
 {
-    [SerializeField]
-    private float health;
-    [SerializeField]
-    private float moveSpeed = 4f;
+    [SerializeField] private float health;
+    [SerializeField] private float moveSpeed = 1f;
 
     private Rigidbody2D rb;
     public float Health
