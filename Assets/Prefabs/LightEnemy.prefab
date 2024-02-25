@@ -151,9 +151,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 80
-  moveSpeed: 2
+  moveSpeed: 4
   fadeDuration: 2
   rotationSpeed: 0
+  bulletPrefab: {fileID: 0}
+  gunPoint: {fileID: 0}
+  bulletSpeed: 5
+  fireRate: 1
 --- !u!114 &2387526252684687485
 MonoBehaviour:
   m_ObjectHideFlags: 0
