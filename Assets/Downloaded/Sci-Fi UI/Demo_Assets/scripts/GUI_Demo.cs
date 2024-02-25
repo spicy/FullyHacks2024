@@ -28,7 +28,7 @@ public class GUI_Demo : MonoBehaviour {
 	void OnGUI () 
 	{
 		GUI.skin = guiSkin;
-		windowRect = GUI.Window (0, windowRect, DoMyWindow, "My Window");
+		windowRect = GUI.Window (0, windowRect, DoMyWindow, "Spawn of Chaos");
 	}
 
 
