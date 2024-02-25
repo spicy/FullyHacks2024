@@ -49,5 +49,7 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
     public void Die()
     {
         // Kill the enemy and add to the score manager ? Invoke death event??
+        Debug.Log("Enemy Died");
+        Destroy(gameObject, 1);
     }
 }

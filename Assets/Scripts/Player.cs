@@ -12,9 +12,11 @@ public class Player : MonoBehaviour, ICharacter
 
     [SerializeField] private float dashPower = 5.0f;
     [SerializeField] private float dashCooldown = 2.0f;
+    [SerializeField] private float dashTimeInSeconds = 0.25f;
+
+    private bool isDashing = false;
     private bool canDash = true;
     [SerializeField] private float invulnerabilityDuration = 1.5f;
-    private float dashTime = 1f;
 
     public float Health
     {
@@ -32,6 +34,11 @@ public class Player : MonoBehaviour, ICharacter
 
     public void Move(Vector2 direction)
     {
+        if (isDashing)
+        {
+            return;
+        }
+
         Vector2 moveVelocity = direction.normalized * moveSpeed;
         rb.velocity = moveVelocity;
     }
@@ -74,18 +81,22 @@ public class Player : MonoBehaviour, ICharacter
         isInvulnerable = false;
     }
 
-    public void TryDash(Vector2 aimDirection)
+    public void TryDash()
     {
-        StartCoroutine(Dash(aimDirection));
+        if (!canDash) return;
+
+        StartCoroutine(Dash());
     }
 
-    private IEnumerator Dash(Vector2 aimDirection)
+    private IEnumerator Dash()
     {
         canDash = false;
+        isDashing = true;
         SetInvulnerability(true, invulnerabilityDuration);
 
-        rb.velocity = new Vector2(aimDirection.x * transform.localScale.x * dashPower, aimDirection.y * transform.localScale.y * dashPower);
-        yield return new WaitForSeconds(dashTime);
+        rb.velocity = new Vector2(transform.localScale.x * rb.velocity.x * dashPower, transform.localScale.y * rb.velocity.y * dashPower);
+        yield return new WaitForSeconds(dashTimeInSeconds);
+        isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }

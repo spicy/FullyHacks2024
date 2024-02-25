@@ -10,3 +10,10 @@ MonoImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 208384
+  packageName: Dynamic Mesh Cutter
+  packageVersion: 1.2.4
+  assetPath: Assets/DynamicMeshCutter/Scripts/Core/AsycWorker.cs
+  uploadId: 596338
