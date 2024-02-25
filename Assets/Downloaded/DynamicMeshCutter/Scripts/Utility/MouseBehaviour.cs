@@ -8,7 +8,7 @@ namespace DynamicMeshCutter
     [RequireComponent(typeof(LineRenderer))]
     public class MouseBehaviour : CutterBehaviour
     {
-        public LineRenderer LR => GetComponent<LineRenderer>();
+        public LineRenderer lineRenderer => GetComponent<LineRenderer>();
         private Vector3 _from;
         private Vector3 _to;
         private bool _isDragging;
@@ -21,13 +21,13 @@ namespace DynamicMeshCutter
             {
                 _isDragging = true;
 
-                var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane + 0.05f);
+                var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 6f);
                 _from = Camera.main.ScreenToWorldPoint(mousePos);
             }
 
             if (_isDragging)
             {
-                var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane + 0.05f);
+                var mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 6f);
                 _to = Camera.main.ScreenToWorldPoint(mousePos);
                 VisualizeLine(true);
             }
@@ -38,12 +38,12 @@ namespace DynamicMeshCutter
 
             if (Input.GetMouseButtonUp(0) && _isDragging)
             {
-                Cut();
+                Slice();
                 _isDragging = false;
             }
         }
-
-        private void Cut()
+        
+        private void Slice()
         {
             Plane plane = new Plane(_from, _to, Camera.main.transform.position);
 
@@ -52,11 +52,26 @@ namespace DynamicMeshCutter
             {
                 if (!root.activeInHierarchy)
                     continue;
+
                 var targets = root.GetComponentsInChildren<MeshTarget>();
                 foreach (var target in targets)
                 {
                     Cut(target, _to, plane.normal, null, OnCreated);
                 }
+            }
+        }
+
+        public void OnCut(bool success, Info info)
+        {
+            if (success)
+            {
+                // Your custom logic here
+                Debug.Log($"Cut successful. Processed {info.CreatedMeshes.Length} meshes.");
+                // Additional logic based on 'info'
+            }
+            else
+            {
+                Debug.Log("Cut operation failed.");
             }
         }
 
@@ -66,16 +81,16 @@ namespace DynamicMeshCutter
         }
         private void VisualizeLine(bool value)
         {
-            if (LR == null)
+            if (lineRenderer == null)
                 return;
 
-            LR.enabled = value;
+            lineRenderer.enabled = value;
 
             if (value)
             {
-                LR.positionCount = 2;
-                LR.SetPosition(0, _from);
-                LR.SetPosition(1, _to);
+                lineRenderer.positionCount = 2;
+                lineRenderer.SetPosition(0, _from);
+                lineRenderer.SetPosition(1, _to);
             }
         }
 

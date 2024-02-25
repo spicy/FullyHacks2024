@@ -6,7 +6,7 @@ public partial class LightEnemy : BaseEnemy, ISliceable
 {
     // Different Attack?
     // Different Range?
-    public void Slice()
+    public void OnBeforeSlice()
     {
         TakeDamage(9999);
     }
