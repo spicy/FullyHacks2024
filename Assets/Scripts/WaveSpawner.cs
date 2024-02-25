@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Interfaces are unchanged as they represent clear contracts.
 public interface IWaveGenerator
 {
     void GenerateWave(int currentWave);
@@ -13,9 +13,10 @@ public interface IEnemySpawner
     void SpawnEnemy(GameObject enemyPrefab, Transform spawnLocation);
 }
 
-
 public class WaveGenerator : IWaveGenerator
 {
+    private const int WaveMultiplier = 10;
+    private const int MaxEnemiesPerWave = 5;
     private List<Enemy> enemies;
     private List<GameObject> enemiesToSpawn = new List<GameObject>();
     private int waveValue;
@@ -27,21 +28,21 @@ public class WaveGenerator : IWaveGenerator
 
     public void GenerateWave(int currentWave)
     {
-        waveValue = currentWave * 10;
+        waveValue = currentWave * WaveMultiplier;
         GenerateEnemies();
     }
 
     private void GenerateEnemies()
     {
         List<GameObject> generatedEnemies = new List<GameObject>();
-        while (waveValue > 0 || generatedEnemies.Count < 50)
+        while (waveValue > 0 && generatedEnemies.Count < MaxEnemiesPerWave)
         {
             int randEnemyId = Random.Range(0, enemies.Count);
             Enemy enemy = enemies[randEnemyId];
-            if (waveValue - enemy.cost >= 0)
+            if (waveValue - enemy.Cost >= 0)
             {
-                generatedEnemies.Add(enemy.enemyPrefab);
-                waveValue -= enemy.cost;
+                generatedEnemies.Add(enemy.EnemyPrefab);
+                waveValue -= enemy.Cost;
             }
             else
             {
@@ -57,29 +58,33 @@ public class WaveGenerator : IWaveGenerator
     }
 }
 
-
 public class EnemySpawner : IEnemySpawner
 {
-    public List<GameObject> spawnedEnemies = new List<GameObject>();
+    public List<GameObject> SpawnedEnemies { get; private set; } = new List<GameObject>();
 
     public void SpawnEnemy(GameObject enemyPrefab, Transform spawnLocation)
     {
-        GameObject enemy = GameObject.Instantiate(enemyPrefab, spawnLocation.position, Quaternion.identity);
-        spawnedEnemies.Add(enemy);
+        GameObject enemy = EnemyPoolManager.Instance.SpawnFromPool(enemyPrefab, spawnLocation.position, Quaternion.identity);
+        SpawnedEnemies.Add(enemy);
+    }
+
+    public void ReturnEnemyToPool(GameObject enemyPrefab, GameObject enemy)
+    {
+        SpawnedEnemies.Remove(enemy);
+        EnemyPoolManager.Instance.ReturnToPool(enemyPrefab, enemy);
     }
 }
 
-
 public class WaveSpawner : MonoBehaviour
 {
-    public List<Enemy> enemies = new List<Enemy>();
-    public Transform[] spawnLocations;
-    public int currentWave;
+    [SerializeField] private List<Enemy> enemies = new List<Enemy>();
+    [SerializeField] private Transform[] spawnLocations;
+    private int currentWave;
     private IWaveGenerator waveGenerator;
     private IEnemySpawner enemySpawner;
-    public float spawnInterval;
-    public float waveTimer;
-    public float spawnTimer;
+    [SerializeField] private float waveTimer;
+    private float spawnInterval;
+    private float spawnTimer;
 
     void Start()
     {
@@ -103,7 +108,7 @@ public class WaveSpawner : MonoBehaviour
             spawnTimer -= Time.fixedDeltaTime;
         }
 
-        if (waveGenerator.GetEnemiesToSpawn().Count == 0 && ((EnemySpawner)enemySpawner).spawnedEnemies.Count == 0)
+        if (waveGenerator.GetEnemiesToSpawn().Count == 0 && ((EnemySpawner)enemySpawner).SpawnedEnemies.Count == 0)
         {
             NextWave();
         }
@@ -128,6 +133,9 @@ public class WaveSpawner : MonoBehaviour
 [System.Serializable]
 public class Enemy
 {
-    public GameObject enemyPrefab;
-    public int cost;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private int cost;
+
+    public GameObject EnemyPrefab => enemyPrefab;
+    public int Cost => cost;
 }
