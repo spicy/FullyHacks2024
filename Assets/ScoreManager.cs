@@ -22,7 +22,7 @@ public class ScoreManager : MonoBehaviour
 
         lightEnemyKillCount = 0;
         heavyEnemyKillCount = 0;
-        superHeavyEnemyKillCountEnemyKillCount = 0;
+        superHeavyEnemyKillCount = 0;
         factoryKillCount = 0;
     }
 
@@ -38,7 +38,7 @@ public class ScoreManager : MonoBehaviour
 
     public void KillSuperHeavyEnemy() 
     {
-        superHeavyEnemyKillCountEnemyKillCount++;
+        superHeavyEnemyKillCount++;
     }
 
     public void KillFactory() {
@@ -62,7 +62,7 @@ public class ScoreManager : MonoBehaviour
     }
     */
 
-    public GetFactoryKillCount()
+    public int GetFactoryKillCount()
     {
         return factoryKillCount;
     }
