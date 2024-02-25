@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
+using TMPro;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour, ICharacter
@@ -65,6 +66,7 @@ public class Player : MonoBehaviour, ICharacter
     public void Die()
     {
         Debug.Log("Player died.");
+        Destroy(gameObject);
     }
 
     public void SetInvulnerability(bool state, float duration)
@@ -100,5 +102,12 @@ public class Player : MonoBehaviour, ICharacter
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
+ 
+    /*
+    public void getHealth()
+    {
+        "Health: " + health;
+    }
+    */
 
 }
