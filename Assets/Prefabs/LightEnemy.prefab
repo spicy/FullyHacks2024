@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 8701581675441939482}
   - component: {fileID: 1592639660177472398}
   - component: {fileID: 6443497301294660267}
+  - component: {fileID: 6439005377970942019}
+  - component: {fileID: 2387526252684687485}
   m_Layer: 6
   m_Name: LightEnemy
   m_TagString: Enemy
@@ -64,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c714cd149559a2d4eb7b27500506154e, type: 2}
+  - {fileID: 2100000, guid: 91090ed101ccea843979fc0d9855669e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -150,4 +152,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 80
-  moveSpeed: 4
+  moveSpeed: 2
+  fadeDuration: 2
+--- !u!114 &6439005377970942019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7346274198396828306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70503e2f288f49f45b4c5b9a05e29256, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  rotationSpeed: 4
+--- !u!114 &2387526252684687485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7346274198396828306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2960df804cd7a74283ac8cedeb870f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerAwarenessDistance: 20

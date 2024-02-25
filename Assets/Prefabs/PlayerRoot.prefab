@@ -49,7 +49,7 @@ MonoBehaviour:
   DestroyTargets: 1
   UseAsync: 1
   VertexCreationThreshold: 1200
-  DefaultMaterial: {fileID: 2100000, guid: 30d3bdcd8e9e6a947b19338f628af5b5, type: 2}
+  DefaultMaterial: {fileID: 2100000, guid: b175f8a2b1409384e998458d47134636, type: 2}
 --- !u!120 &501406926473997950
 LineRenderer:
   serializedVersion: 2
@@ -313,7 +313,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: cf22e9463f3c778498c5eb581133878f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -402,7 +402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ff3c7ebfaea9b948a2e40a88ae41211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 0}
 --- !u!96 &3771710323809037126
 TrailRenderer:
   serializedVersion: 3
