@@ -25,10 +25,16 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
     [SerializeField] private float rotationSpeed;
     internal IPlayerAwareness playerAwareness;
 
-    private void Start()
+    internal void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+            Debug.LogError("Couldnt find Rigidbody2D component");
+
         playerAwareness = GetComponent<IPlayerAwareness>();
+
+        if (playerAwareness == null)
+            Debug.LogError("Couldnt find IPlayerAwareness component");
     }
 
     private void FixedUpdate()
