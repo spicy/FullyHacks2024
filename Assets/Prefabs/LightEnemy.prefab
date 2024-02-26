@@ -188,7 +188,7 @@ MonoBehaviour:
   rotationSpeed: 0
   gunPoint: {fileID: 9050974861207085819}
   bulletSpeed: 6
-  fireRate: 2
+  fireRate: 1
 --- !u!114 &2387526252684687485
 MonoBehaviour:
   m_ObjectHideFlags: 0

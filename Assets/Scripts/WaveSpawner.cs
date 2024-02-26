@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public interface IWaveGenerator
@@ -17,7 +18,7 @@ public interface IEnemySpawner
 public class WaveGenerator : IWaveGenerator
 {
     private const int WaveMultiplier = 10;
-    private const int MaxEnemiesPerWave = 15;
+    private const int MaxEnemiesPerWave = 5;
     private List<Enemy> enemies;
     private List<GameObject> enemiesToSpawn = new List<GameObject>();
     private int waveValue;
@@ -58,6 +59,7 @@ public class WaveGenerator : IWaveGenerator
                 break;
             }
         }
+        enemiesToSpawn.Clear();
     }
 
     public List<GameObject> GetEnemiesToSpawn()
@@ -116,7 +118,7 @@ public class WaveSpawner : MonoBehaviour
             spawnTimer -= Time.deltaTime;
         }
 
-        if (waveGenerator.GetEnemiesToSpawn().Count == 0 && ((EnemySpawner)enemySpawner).SpawnedEnemies.Count == 0)
+        if (waveGenerator.GetEnemiesToSpawn().Count == 0 && ((EnemySpawner)enemySpawner).SpawnedEnemies.Where(enemy => enemy != null).Count() == 0)
         {
             NextWave();
         }
