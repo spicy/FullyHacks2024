@@ -1,11 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Interfaces are unchanged as they represent clear contracts.
 public interface IWaveGenerator
 {
     void GenerateWave(int currentWave);
     List<GameObject> GetEnemiesToSpawn();
+    void SetMonoBehaviour(MonoBehaviour monoBehaviour);
 }
 
 public interface IEnemySpawner
@@ -16,10 +17,13 @@ public interface IEnemySpawner
 public class WaveGenerator : IWaveGenerator
 {
     private const int WaveMultiplier = 10;
-    private const int MaxEnemiesPerWave = 5;
+    private const int MaxEnemiesPerWave = 15;
     private List<Enemy> enemies;
     private List<GameObject> enemiesToSpawn = new List<GameObject>();
     private int waveValue;
+    private float minSpawnDelay = 0.5f;
+    private float maxSpawnDelay = 2f;
+    private MonoBehaviour monoBehaviourRef;
 
     public WaveGenerator(List<Enemy> enemies)
     {
@@ -29,32 +33,41 @@ public class WaveGenerator : IWaveGenerator
     public void GenerateWave(int currentWave)
     {
         waveValue = currentWave * WaveMultiplier;
-        GenerateEnemies();
+        if (monoBehaviourRef != null)
+        {
+            monoBehaviourRef.StartCoroutine(GenerateEnemiesOverTime());
+        }
     }
 
-    private void GenerateEnemies()
+    private IEnumerator GenerateEnemiesOverTime()
     {
-        List<GameObject> generatedEnemies = new List<GameObject>();
-        while (waveValue > 0 && generatedEnemies.Count < MaxEnemiesPerWave)
+        while (waveValue > 0 && enemiesToSpawn.Count < MaxEnemiesPerWave)
         {
             int randEnemyId = Random.Range(0, enemies.Count);
             Enemy enemy = enemies[randEnemyId];
             if (waveValue - enemy.Cost >= 0)
             {
-                generatedEnemies.Add(enemy.EnemyPrefab);
+                enemiesToSpawn.Add(enemy.EnemyPrefab);
                 waveValue -= enemy.Cost;
+
+                float waitTime = Random.Range(minSpawnDelay, maxSpawnDelay);
+                yield return new WaitForSeconds(waitTime);
             }
             else
             {
                 break;
             }
         }
-        enemiesToSpawn = generatedEnemies;
     }
 
     public List<GameObject> GetEnemiesToSpawn()
     {
         return enemiesToSpawn;
+    }
+
+    public void SetMonoBehaviour(MonoBehaviour monoBehaviour)
+    {
+        monoBehaviourRef = monoBehaviour;
     }
 }
 
@@ -64,14 +77,8 @@ public class EnemySpawner : IEnemySpawner
 
     public void SpawnEnemy(GameObject enemyPrefab, Transform spawnLocation)
     {
-        GameObject enemy = EnemyPoolManager.Instance.SpawnFromPool(enemyPrefab, spawnLocation.position, Quaternion.identity);
+        GameObject enemy = GameObject.Instantiate(enemyPrefab, spawnLocation.position, Quaternion.identity);
         SpawnedEnemies.Add(enemy);
-    }
-
-    public void ReturnEnemyToPool(GameObject enemyPrefab, GameObject enemy)
-    {
-        SpawnedEnemies.Remove(enemy);
-        EnemyPoolManager.Instance.ReturnToPool(enemyPrefab, enemy);
     }
 }
 
@@ -89,11 +96,12 @@ public class WaveSpawner : MonoBehaviour
     void Start()
     {
         waveGenerator = new WaveGenerator(enemies);
+        waveGenerator.SetMonoBehaviour(this); // Pass this MonoBehaviour to the waveGenerator
         enemySpawner = new EnemySpawner();
         NextWave();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (spawnTimer <= 0 && waveGenerator.GetEnemiesToSpawn().Count > 0)
         {
@@ -105,7 +113,7 @@ public class WaveSpawner : MonoBehaviour
         }
         else
         {
-            spawnTimer -= Time.fixedDeltaTime;
+            spawnTimer -= Time.deltaTime;
         }
 
         if (waveGenerator.GetEnemiesToSpawn().Count == 0 && ((EnemySpawner)enemySpawner).SpawnedEnemies.Count == 0)

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour, ICharacter
@@ -32,6 +31,14 @@ public class Player : MonoBehaviour, ICharacter
             Debug.LogError("Could not find Rigidbody2D");
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            TakeDamage(10);
+        }
+    }
+
     public void Move(Vector2 direction)
     {
         if (isDashing)
@@ -53,18 +60,10 @@ public class Player : MonoBehaviour, ICharacter
         }
     }
 
-    public void Attack()
-    {
-
-    }
-
-    public void AimTowards(Vector2 aimDirection)
-    {
-
-    }
     public void Die()
     {
-        Debug.Log("Player died.");
+        Debug.Log("Player died!! AHHHH");
+        // Implement what happens when the player dies (e.g., restart level, show game over screen)
     }
 
     public void SetInvulnerability(bool state, float duration)
@@ -94,11 +93,15 @@ public class Player : MonoBehaviour, ICharacter
         isDashing = true;
         SetInvulnerability(true, invulnerabilityDuration);
 
-        rb.velocity = new Vector2(transform.localScale.x * rb.velocity.x * dashPower, transform.localScale.y * rb.velocity.y * dashPower);
+        rb.velocity = new Vector2(transform.localScale.x * dashPower, rb.velocity.y);
         yield return new WaitForSeconds(dashTimeInSeconds);
         isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
 
+    public void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
 }
