@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DeactivateAfterTime : MonoBehaviour
 {
-    private float lifetime = 10f;
+    private float lifetime = 8f;
 
     private void OnEnable()
     {

@@ -66,7 +66,7 @@ namespace DynamicMeshCutter
             MeshCreation.TranslateCreatedObjects(info, cData.CreatedObjects, cData.CreatedTargets, Separation);
             foreach (GameObject obj in cData.CreatedObjects)
             {
-                float randomDelay = Random.Range(1f, 10f);
+                float randomDelay = Random.Range(1f, 3f);
                 Destroy(obj, randomDelay);
             }
         }

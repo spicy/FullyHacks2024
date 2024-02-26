@@ -81,24 +81,5 @@ public partial class BaseEnemy : MonoBehaviour, ICharacter
     {
         // Kill the enemy and add to the score manager ? Invoke death event??
         Debug.Log("Enemy Died");
-        StartCoroutine(FadeOutAndDestroy());
     }
-
-    private IEnumerator FadeOutAndDestroy()
-    {
-        float currentTime = 0;
-        Material material = GetComponent<Renderer>().material;
-        Color startColor = material.color;
-
-        while (currentTime < fadeDuration)
-        {
-            float alpha = Mathf.Lerp(1f, 0f, currentTime / fadeDuration);
-            material.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
-            currentTime += Time.deltaTime;
-            yield return null;
-        }
-
-        Destroy(gameObject);
-    }
-
 }
