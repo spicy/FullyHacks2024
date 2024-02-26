@@ -93,7 +93,7 @@ public class Player : MonoBehaviour, ICharacter
         isDashing = true;
         SetInvulnerability(true, invulnerabilityDuration);
 
-        rb.velocity = new Vector2(transform.localScale.x * dashPower, rb.velocity.y);
+        rb.velocity = new Vector2(transform.localScale.x * rb.velocity.x * dashPower, transform.localScale.y * rb.velocity.y * dashPower);
         yield return new WaitForSeconds(dashTimeInSeconds);
         isDashing = false;
         yield return new WaitForSeconds(dashCooldown);
