@@ -7,7 +7,7 @@ public class BulletPoolManager : MonoBehaviour
 
     [SerializeField] private GameObject bulletPrefab;
     private List<GameObject> bulletPool = new List<GameObject>();
-    private int poolStartSize = 1000;
+    private int poolStartSize = 100;
 
     private void Awake()
     {
